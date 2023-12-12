@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { inter, lora, merriweather } from "@/app/ui/fonts";
+import { ThemeProvider } from "@/components/theme-provider";
+import { inter, lora, merriweather } from "@/components/ui/fonts";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
@@ -17,9 +18,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${merriweather.className} min-h-screen bg-background antialiased`}
+        className={cn(
+          "min-h-screen bg-background font-body antialiased",
+          merriweather.variable,
+          lora.variable,
+        )}
+        // adding fonts using tailwind-merge helper funtion. Now can declare "font-headings", "font-body" AND font-body is declared on body as default
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          {/* </ThemeProvider> */}
+        </ThemeProvider>
       </body>
     </html>
   );
